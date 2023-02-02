@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>exe1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media only screen and (max-width: 1000px){
+            #wrapper{
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body class="w-full flex justify-center items-center">
+    <div class="w-[65%] bg-[#f1f5f8] border-4 border-black p-8 m-auto">
+        <div>
+            <h1 class="flex justify-center text-[30px]"><strong>About</strong></h1>
+            <p class="flex justify-center">Lorem ipsum dolor sit amet consectetur adipiscing elit!</p>
+        </div>
+        <div id="wrapper" class="w-full flex">
+            <div class="w-full py-4">
+                <img class="rounded-lg w-[100%]" src="https://images.unsplash.com/photo-1516051733211-2492fab1d3a5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=848&q=80" alt="">
+            </div>
+            <div class="w-full pt-4">
+                <div class="flex w-full h-[8%] bg-[#dbe2ec] rounded-t-lg">
+                    <button id="history" class=" w-1/3 rounded-tl-lg hover:!bg-[#f1f5f8]" type="button">History</button>
+                    <button id="vision" class=" w-1/3 hover:!bg-[#f1f5f8]" type="button">Vision</button>
+                    <button id="goals" class=" w-1/3 rounded-tr-lg hover:!bg-[#f1f5f8]" type="button">Goals</button>
+                </div>
+
+                <div id="content" class="bg-white w-full  rounded-b-lg p-2"></div>
+            </div>
+        </div>
+    </div>
+   
+    <script>
+        var historyBtn = document.getElementById('history')
+        var visionBtn = document.getElementById('vision')
+        var goalsBtn = document.getElementById('goals')
+        var content = document.getElementById('content')
+
+        function selectFirstTab(){
+            historyBtn.style.backgroundColor = "white"
+            visionBtn.style.backgroundColor = "#dbe2ec"
+            goalsBtn.style.backgroundColor = "#dbe2ec"
+
+            content.innerHTML=`
+            <div><strong>Histone</strong></div>
+            <div>I'm baby wolf pickled schlitz try-hard normcore marfa man bun mumblecore vice pop-up XOXO lomo kombucha glossier bicycle rights. Umami kinfolk salvia jean shorts offal venmo. Knausgaard tilde try- hard, woke fixie banjo man bun. Small batch tumeric mustache tbh wayfarers 8-bit shaman chartreuse tacos. Viral direct trade hoodie ugh chambray, craft beer pork belly flannel tacos single- origin coffee art party migas plaid pop-up</div>
+            `
+        }
+        selectFirstTab();
+
+        historyBtn.addEventListener("click",() => {
+            selectFirstTab();
+        });
+
+        visionBtn.addEventListener("click",() =>{
+            historyBtn.style.backgroundColor = "#dbe2ec"
+            visionBtn.style.backgroundColor = "white"
+            goalsBtn.style.backgroundColor = "#dbe2ec"
+
+            content.innerHTML=`
+            <div><strong>Vision</strong></div>
+            <div >Man bun PBR&B keytar copper mug prism, hell of helvetica. Synth crucifix offal deep v hella biodiesel. Church-key listicle polaroid put a bird on it chillwave palo santo enamel pin, tattooed meggings franzen la croix cray. Retro yr aesthetic four loko tbh helvetica air plant, neutra palo santo tofu mumblecore. Hoodie bushwick pour-over jean shorts chartreuse shabby chic. Roof party hammock master cleanse pop-up truffaut, bicycle rights skateboard affogato readymade sustainable deep v live-edge schlitz narwhal</div>
+            `  
+        })
+        
+        goalsBtn.addEventListener("click",() =>{
+            historyBtn.style.backgroundColor = "#dbe2ec"
+            visionBtn.style.backgroundColor = "#dbe2ec"
+            goalsBtn.style.backgroundColor = "white"
+
+            content.innerHTML=`
+            <div>
+                <strong>Goals</strong>
+                <p>Anyone whose goal is 'something higher' must expect someday to suffer vertigo. What is vertigo? Fear of falling? No, Vertigo is something other than fear of falling. It is the voice of the emptiness below us which tempts and lures us, it is the desire to fall, against which, terrified, we defend ourselves.</p></div>
+            `
+        })
+    </script>
+</body>
+</html>

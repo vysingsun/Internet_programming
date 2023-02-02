@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>exe4</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="w-full h-[100vh] flex justify-center items-center" onload="color.displayColor()">
+    <div class="w-[50%] h-full bg-[#f5f5f5] border-4 border-black p-2">
+        <div class="bg-white w-full h-full">
+            <div class="text-[#4ba8e9] p-5 "><strong>Random Color Generator</strong></div>
+
+            <div  class="wrapper py-3 px-1">
+                <div class="bg-black rounded py-4 mb-4">
+                    <div class="flex justify-center text-white"><strong>Background Color:</strong></div>
+                    <div id="code" class="flex justify-center text-white"></div>
+                </div>
+                <div class="flex justify-center gap-[5%]">
+                    <button id="generate" class="bg-black border-2 border-black text-white rounded py-2 px-4" onclick="color.generate()" type="button">GENERATE</button>
+                    <button id="reset" class="border-2 border-black rounded py-2 px-4" onclick="color.reset()" type="button">RESET</button>
+                </div>
+            </div >
+
+            <div id="display" class="h-1/3 bg-white overflow-y-scroll p-2">
+                
+            </div>
+
+            <div  class="wrapper w-full h-1/3">
+
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+            
+        class Color {
+            colorType = "HEX";
+            records = [];
+
+            constructor(type){
+                this.colorType = type;
+                // this.records=[]
+                this.getRecords();
+                // console.log(this.records);
+            }
+            
+            generate() {
+                let color = this.getRandomNumber();
+                // console.dir(this.records);
+
+                this.records.push(color);
+                localStorage.setItem('colorGen', JSON.stringify(this.records));
+                this.displayColor();
+            }
+            displayColor(){
+                // console.log(this.records);
+                
+                document.getElementById("display").innerHTML = "";
+                document.getElementsByClassName("wrapper")[0].style.backgroundColor = this.records[this.records.length-1];
+                document.getElementsByClassName("wrapper")[1].style.backgroundColor = this.records[this.records.length-1];
+                document.getElementById("code").innerHTML = this.records[this.records.length-1];
+                
+                for(let i=this.records.length-1; i>=0; i--){
+                        document.getElementById("display").innerHTML += `<div class="text">${this.records[i]}<div class="square" style="background-color: ${this.records[i]};"></div> </div>`
+                }
+                
+            }
+            getRandomNumber(){
+                var letters = '0123456789ABCDEF';
+                var color = '#';
+                for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+            }
+            getRecords(){
+                this.records =localStorage.getItem("colorGen")!=null? JSON.parse(localStorage.getItem('colorGen')):[];
+                // console.log(this.records);
+            }
+            reset(){
+                this.records = [];
+                localStorage.setItem('colorGen', JSON.stringify(this.records));
+                document.getElementById("display").innerHTML = "";
+                document.getElementsByClassName("wrapper")[0].style.backgroundColor = "unset";
+                document.getElementsByClassName("wrapper")[1].style.backgroundColor = "unset";
+            }
+        }
+        var color = new Color("HEX");
+        
+
+
+    </script>
+</body>
+</html>
