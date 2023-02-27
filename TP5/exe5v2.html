@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>exe5</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .flipping {
+           width: 67.2px;
+           height: 67.2px;
+           display: grid;
+           grid-template-columns: repeat(3, 1fr);
+           grid-template-rows: repeat(3, 1fr);
+        }
+        
+        .flipping div {
+           animation: flipping-18i5bq 1.5s calc(var(--delay) * 1s) infinite backwards;
+           background-color: #474bff;
+        }
+        
+        .flipping div:nth-child(1) {
+           --delay: 0.1;
+        }
+        
+        .flipping div:nth-child(2) {
+           --delay: 0.2;
+        }
+        
+        .flipping div:nth-child(3) {
+           --delay: 0.3;
+        }
+        
+        .flipping div:nth-child(4) {
+           --delay: 0.4;
+        }
+        
+        .flipping div:nth-child(5) {
+           --delay: 0.5;
+        }
+        
+        .flipping div:nth-child(6) {
+           --delay: 0.6;
+        }
+        
+        .flipping div:nth-child(7) {
+           --delay: 0.7;
+        }
+        
+        .flipping div:nth-child(8) {
+           --delay: 0.8;
+        }
+        
+        .flipping div:nth-child(9) {
+           --delay: 0.9;
+        }
+        
+        @keyframes flipping-18i5bq {
+           0% {
+              transform: perspective(67.2px) rotateX(-90deg);
+           }
+        
+           50%, 75% {
+              transform: perspective(67.2px) rotateX(0);
+           }
+        
+           100% {
+              opacity: 0;
+              transform: perspective(67.2px) rotateX(0);
+           }
+        }
+        </style>
+</head>
+<body>
+    <div class="w-[90%] h-[90vh] border-4 border-black p-2 flex justify-center m-auto">
+        <div class="bg-[#ebebeb] w-[20%] p-4 mx-2">
+            <div><strong>Name:</strong></div>
+            <div class="w-full"><input class="w-full border-[1px] my-2 px-2" type="text" placeholder="c programming"></div>
+            <div><strong>Category:</strong></div>
+            <div class="w-full"><input class="w-full border-[1px] my-2 px-2" type="text" placeholder="coding"></div>
+            <div><strong>Price:</strong></div>
+            <div class="w-full"><input class="w-full border-[1px] my-2 px-2" type="text" placeholder="1,000 riel"></div>
+            <button class="bg-blue-600 px-2 rounded-sm text-white" type="button" onclick="show()">Add</button>
+        </div>
+         <div id="list_book" class="w-[80%] bg-[#ebebeb] p-2 grid grid-cols-4 gap-[1%] overflow-y-auto">
+            <div class="w-full h-full flex items-end">          
+               <div id="loading" class="flipping ">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+               </div>
+            </div>
+         </div>    
+    </div>
+    <script>
+        fetch('https://jsonplaceholder.typicode.com/photos').then((response) => {
+            return response.json();
+        }).then((datas) => {
+            console.log(datas)
+            var template = ''
+            datas.forEach(data => {
+                template += `<div class="bg-white">
+                                <div class="my-16">
+                                    <img src="${data.thumbnailUrl}" alt="Book-logo">
+                                </div>
+                                <div class="book_info">
+                                    <p> ${data.title} </p>
+                                    <p>Id: ${data.id} </p>
+                                    <p>AlbumId: ${data.albumId} riels</p>
+                                    <a class="text-[#4da6ff]" href="./detail.html?id=${data.id}">See</a>
+                                </div>
+                            </div>`
+                    });
+            document.getElementById('list_book').innerHTML = template;  
+        }).catch((err) =>{
+            console.log(err);
+        }).finally(() =>{
+
+        })
+    </script>
+</body>
+</html>

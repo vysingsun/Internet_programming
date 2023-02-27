@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div id="detail" class="w-[70%] border-black border-[5px] m-auto" id="detail">
+        
+    </div>
+    <script>
+        var url_str = document.URL
+        var url_split = url_str.split("id=")
+        var id = parseInt(url_split[1])
+        var param = 'https://jsonplaceholder.typicode.com/photos'+'?id='+id
+        var display = ''
+        fetch(param).then(res => {
+            return res.json()
+        }).then(data => {
+            console.log(data)
+            display = 
+            `
+            <div class="bg-[#474e5d] py-[7%]">
+                <p class="text-center text-white text-[170%]"><strong>${data[0].title}</strong></p>
+                <div class="text-center text-white">${data[0].id}</div>
+                <p class="text-center text-white">Resize the browser window to see that this page is responsive by the way.</p>
+            </div>
+            <div class="w-full bg-white pb-[50%]">
+                <div class="text-center py-[2%]"><strong>${data[0].albumId}</strong></div>
+                <div class="flex justify-center">
+                    <img src="${data[0].thumbnailUrl}" alt="">
+                </div>
+            </div>
+            `
+            document.getElementById('detail').innerHTML = display;
+        })
+    </script>
+</body>
+</html>

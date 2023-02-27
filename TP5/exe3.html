@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>exe3</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .spinner {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #474bff;
+            -webkit-mask: repeating-conic-gradient(#0000 0deg,#000 1deg 70deg,#0000 71deg 90deg),
+                    radial-gradient(farthest-side,#0000 calc(100% - 10.1px),#000 calc(100% - 9px));
+            -webkit-mask-composite: destination-in;
+            mask-composite: intersect;
+            animation: spinner-mv2oco 1s infinite;
+        }
+        @keyframes spinner-mv2oco {
+            to {
+                transform: rotate(.5turn);
+            }
+        }
+        </style>
+</head>
+<body class="w-full flex justify-center">
+    <div class="w-[80%] border-4 border-black py-[15px] flex flex-col justify-center items-center">
+        <div class="flex justify-center text-[70px]">🌎</div>
+        <div class="text-center text-[30px]"><strong>I know your <span class="text-[#2476f0]"> Home</span></strong></div>
+        <div class=" flex justify-center py-4">
+            <input id="input" class=" border-[1px] border-[#505050] rounded-md px-2 mx-2" type="text" placeholder="Tell me youe first name">
+            <button class="bg-[#3083ff] text-white rounded-md px-2 mx-2" type="button" onclick="guessNational()">Guess</button>
+        </div>
+        <div id="load" class="spinner" hidden></div>
+        <div class="flex justify-center w-[30%]">
+            <div id="wrapper" class="w-[100%]">
+                
+            </div>
+        </div>
+    </div>
+    <script>
+        function guessNational(){
+            const inputEle = document.getElementById('input');
+            const wrapperEle = document.getElementById('wrapper');
+            const loadEle = document.getElementById('load');
+            loadEle.hidden=false;
+            fetch(`https://api.nationalize.io?name=${inputEle.value}`).then(async (res) =>{
+                const data = await res.json();
+                console.log(data);
+                let obj = data.country;
+                wrapperEle.innerHTML="";
+                for(let i of obj){
+                    wrapperEle.innerHTML +=`
+                    <div id="box" class="w-full flex justify-between bg-[#f4f4f4] rounded-lg px-4 my-2">
+                        <div><strong>${i.country_id}</strong></div>
+                        <div><strong>${(i.probability*100).toPrecision(2)}%</strong></div>
+                    </div>` 
+                }
+            }).catch((err) =>{
+                console.log(err);
+            }).finally(() =>{
+                loadEle.hidden=true;
+            })
+        }
+    </script>
+</body>
+</html>
