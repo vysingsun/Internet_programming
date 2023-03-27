@@ -1,0 +1,21 @@
+{
+  "name": "tp7",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:exe1": "node exe1.js",
+    "dev:watch": "nodemon npm run dev:exe1",
+    "dev:exe2": "node exe2.js",
+    "dev:exe3": "node exe3.js",
+    "dev:exe4": "node exe4.js"
+  },
+  "author": "vysingsun",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^2.0.22",
+    "typescript": "^5.0.2"
+  }
+}
