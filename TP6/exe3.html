@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>exe3</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  
+</head>
+<body class="flex justify-center">
+    <div id="container" class="w-2/3 h-[95vh] flex">
+        <div id="l-container" class="w-1/2 h-full rounded bg-gray-300 p-2 overflow-y-auto">
+        
+        </div>
+        <div id="r-container" class="w-1/2 h-full rounded p-2 ml-2 border-black border-2 overflow-y-auto flex flex-col justify-center items-center">
+            <img id="r-image" src="" alt="beer logo" class="w-1/3 h-fit">
+            <div id="r-title" class="text-2xl"></div>
+            <div id="r-brew-date" class="text-sm text-gray-500"></div>
+            <div id="r-des"></div>
+            <div id="r-contri-title" class="mt-3 font-bold"></div>
+            <div id="r-contri-name" class="text-lg"></div>
+        </div>
+    </div>
+    <script>
+        var scrollerEle = document.getElementById("l-container");
+        var pageNum = 0
+        var local = window.localStorage
+
+        var loading = false;
+    
+        function fetchAPI(pageNum) {
+        return fetch(`https://api.punkapi.com/v2/beers?page=${pageNum}&per_page=20`)
+        }
+
+        function onFetch() {
+        loading = true;
+        fetchAPI(pageNum).then(async(res) => {
+            let info = await res.json();
+            local.setItem(JSON.stringify(pageNum), JSON.stringify(info))
+            info.forEach(element => {
+                render(element)
+            });
+            loading = false;
+            pageNum++;
+            local.setItem("pageNum", JSON.stringify(pageNum))
+        });
+        }
+
+        function render(element) {
+        scrollerEle.innerHTML += `
+        <div id="${element.id}" class="w-full h-24 rounded-lg bg-white mb-2 flex justify-center items-center hover: cursor-pointer">
+            <div id="${element.id}" class="text-7xl">🍻</div>
+            <div id="${element.id}">
+            <div id="${element.id}" class="text-2xl">${element.name}</div>
+            <div id="${element.id}" class="text-sm text-gray-500 text-ellipsis whitespace-nowrap overflow-hidden w-96">${element.description}</div>
+            </div>
+        </div>
+                `
+        }
+        function renderR(element) {
+        document.getElementById("r-image").src = element.image_url
+        document.getElementById("r-title").textContent = element.name
+        document.getElementById("r-brew-date").textContent = element.first_brewed
+        document.getElementById("r-des").textContent = element.description
+        document.getElementById("r-contri-title").textContent = "Contributor"
+        document.getElementById("r-contri-name").textContent = element.contributed_by
+        
+        }
+
+        function checkStorage(){
+        pageNum = JSON.parse(local.getItem("pageNum"))
+        if (pageNum != null){
+            for(let i = 1; i<pageNum; i++){
+            let localEl = JSON.parse(local.getItem(i))
+            localEl.forEach((el)=>{
+                render(el)
+            })
+            } 
+            return false
+        }
+        else{
+            pageNum = 1
+            return true
+        }
+        }
+    
+        scrollerEle.addEventListener("scroll", (event) => {
+        if (scrollerEle.scrollTop + scrollerEle.clientHeight >= (scrollerEle.scrollHeight * 0.95)) {
+            /// to fetch next page from api
+            if (!loading) {
+            onFetch();
+            }
+        }
+        });
+
+        // checkStorage()
+        if(checkStorage()){
+        onFetch()
+
+        }
+
+        document.getElementById("l-container").addEventListener("click", (e)=>{
+        let id = e.target.id
+        fetch(`https://api.punkapi.com/v2/beers?page=${id}&per_page=1`).then(async(res) => {
+            let info = await res.json()
+            renderR(info[0])
+        })
+        document.getElementById(""+id).style.backgroundColor = "#4069d2"
+        for(let i=1; i<pageNum*20; i++){
+            if(i != id){
+            document.getElementById(""+i).style.backgroundColor = "white"
+            }
+        }
+        })
+    </script>
+</body>
+</html>

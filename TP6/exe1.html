@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>exe1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div class="w-[90%] h-[75vh] border-4 border-black m-auto flex">
+        <div class="w-[10%] text-center"><strong id="pagenum"></strong></div>
+        <div  id="scrollable-wrapper" class="w-[90%] h-full  overflow-y-auto bg-[#d3d3d3] p-2">
+            
+        </div>
+    </div>
+    <script>
+        let scrollerEle = document.getElementById("scrollable-wrapper");
+        let page = 0;
+        // let limit = 10;
+        let loading = false;
+        let pageEle = document.getElementById('pagenum');
+
+        function fetchAPI(page) {
+            return fetch(`https://api.instantwebtools.net/v1/passenger?page=${page}&size=20`)
+        }
+     
+        
+        function onFetch() {
+          loading = true;
+          fetchAPI(page).then(async (res) => {
+            let datas = await res.json();
+            // console.log(page);
+            // console.log(res);
+            let airline='';
+            for(let i=0;i<10;i++){
+                airline = datas.data[i].airline;
+                scrollerEle.innerHTML+=`
+                <div class="bg-white w-full pb-[5%] my-1">
+                    <div class="flex">
+                        <div>✈: </div>
+                        <div> ${airline[0].name} - ${airline[0].country}</div>
+                    </div>
+                    <div class="flex">
+                        <div>🙂: ${datas.data[i].name}</div>
+                        <div>Pedro</div>
+                    </div>
+                </div>
+                `
+            }
+            // render to HTML
+            loading = false;
+            page++;
+            pageEle.textContent = page;
+          });
+        }
+     
+        scrollerEle.addEventListener("scroll", (event) => {
+          if (scrollerEle.scrollTop + scrollerEle.clientHeight >= (scrollerEle.scrollHeight * 0.97)) {
+            /// to fetch next page from api
+            if (!loading) {
+              onFetch();
+            }
+          }
+        });
+     
+        onFetch();
+      </script>
+</body>
+</html>
