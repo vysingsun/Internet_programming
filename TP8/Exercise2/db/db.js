@@ -2,7 +2,7 @@ const fs = require('fs');
 
 const path = require('path');
 //read
-const readUsers =() =>{
+const readUsers = () =>{
     let rawData = fs.readFileSync(path.join(process.cwd(),'./db/user.json'), 'utf8');
     if(!rawData){
         return []

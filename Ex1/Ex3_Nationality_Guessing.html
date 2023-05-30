@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nationality-Guessing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .container {
+            border: 2px solid black;
+            margin: auto;
+            width: 50%;
+            text-align: center;
+            height: 700px;
+            padding: 10px;
+        }
+
+        h1 {
+            font-family: Ink Free;
+            font-size: 3rem;
+        }
+
+        .lds-spinner {
+            color: official;
+            display: inline-block;
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+
+        .lds-spinner div {
+            transform-origin: 40px 40px;
+            animation: lds-spinner 1.2s linear infinite;
+        }
+
+        .lds-spinner div:after {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 3px;
+            left: 37px;
+            width: 6px;
+            height: 18px;
+            border-radius: 20%;
+            background: #55ae87;
+        }
+
+        .lds-spinner div:nth-child(1) {
+            transform: rotate(0deg);
+            animation-delay: -1.1s;
+        }
+
+        .lds-spinner div:nth-child(2) {
+            transform: rotate(30deg);
+            animation-delay: -1s;
+        }
+
+        .lds-spinner div:nth-child(3) {
+            transform: rotate(60deg);
+            animation-delay: -0.9s;
+        }
+
+        .lds-spinner div:nth-child(4) {
+            transform: rotate(90deg);
+            animation-delay: -0.8s;
+        }
+
+        .lds-spinner div:nth-child(5) {
+            transform: rotate(120deg);
+            animation-delay: -0.7s;
+        }
+
+        .lds-spinner div:nth-child(6) {
+            transform: rotate(150deg);
+            animation-delay: -0.6s;
+        }
+
+        .lds-spinner div:nth-child(7) {
+            transform: rotate(180deg);
+            animation-delay: -0.5s;
+        }
+
+        .lds-spinner div:nth-child(8) {
+            transform: rotate(210deg);
+            animation-delay: -0.4s;
+        }
+
+        .lds-spinner div:nth-child(9) {
+            transform: rotate(240deg);
+            animation-delay: -0.3s;
+        }
+
+        .lds-spinner div:nth-child(10) {
+            transform: rotate(270deg);
+            animation-delay: -0.2s;
+        }
+
+        .lds-spinner div:nth-child(11) {
+            transform: rotate(300deg);
+            animation-delay: -0.1s;
+        }
+
+        .lds-spinner div:nth-child(12) {
+            transform: rotate(330deg);
+            animation-delay: 0s;
+        }
+
+        @keyframes lds-spinner {
+            0% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        button {
+            background-color: rgb(26, 127, 138);
+            border-radius: 20px;
+            width: 150px;
+            height: 40px;
+        }
+
+        .input {
+            width: 200px;
+            height: 35px;
+            padding: auto;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <img src="https://t4.ftcdn.net/jpg/02/26/34/83/360_F_226348312_0fQBd66F566IUrlvnA4rCWWw8MkUTMhJ.jpg"
+            width="20%">
+        <h1>I Know your Home</h1>
+        <input type="text" id="inputname" placeholder="Tell me your first name" class="input">
+        <button class="bg-indigo-500 hover:bg-cyan-600 w-[100px] h-[40px]  border-2 rounded"
+            onclick="fetchGuessing()">Guess</button>
+        <div id="lds-spinner" hidden>
+            <div class="lds-spinner">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <div class="flex justify-center w-[30%]">
+            <div id="wrapper" class="w-[100%]">
+
+            </div>
+        </div>
+
+    </div>
+    <script>
+
+
+        function fetchGuessing() {
+            const loadingtextEle = document.getElementById("lds-hourglass");
+            const wrapperEle = document.getElementById("wrapper");
+            const NameinputEle = document.getElementById("inputname");
+            // loadingtextEle.hidden = false;
+            fetch(`https://api.nationalize.io/?name=${NameinputEle.value}`)
+                .then(async (res) => {
+                    // loadingtextEle.hidden = true;
+                    const data = await res.json();
+                    console.log(data);
+                    let obj = data.country;
+                    wrapperEle.innerHTML = "";
+                    for (let i of obj) {
+                        wrapperEle.innerHTML += `
+                    <div id="box" class="w-full flex justify-between bg-[#f4f4f4] rounded-lg px-4 my-2">
+                        <div><strong>${i.country_id}</strong></div>
+                        <div><strong>${(i.probability * 100).toPrecision(2)}%</strong></div>
+                    </div>`
+                    }
+                }).catch((err) => {
+                    console.log(err);
+                }).finally(() => {
+                    loadingtextEle.hidden = true;
+                })
+        }
+    </script>
+</body>
+
+</html>
