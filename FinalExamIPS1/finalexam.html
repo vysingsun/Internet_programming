@@ -1,0 +1,150 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="./assets/main.css" />
+    <style>
+        body {
+        font-family: "Lucida Console", monospace;
+        }
+        .container {
+        width: 80%;
+        min-height: 600px;
+        padding: 15px;
+        margin: auto;
+        border: 1px solid grey;
+        text-align: center;
+        }
+        h2 {
+        margin: auto;
+        }
+        /* --- Menu --- */
+        ul.menu {
+        list-style-type: none;
+        display: flex;
+        justify-content: center;
+        }
+        li {
+        padding: 0px 16px;
+        text-decoration: none;
+        }
+        li.active {
+        text-decoration: underline;
+        color: #2b78e4;
+        }
+        /* --- Recipe Template --- */
+        .recipe {
+        text-align: left;
+        display: none;
+        }
+        .recipe img {
+        border: 1px solid black;
+        padding: 10px;
+        width: 250px;
+        }
+
+        /* --- The button --- */
+        #button-generate {
+        margin-top: 200px;
+        background-color: #009e0f;
+        color: white;
+        padding: 7px;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- The page's top title -->
+      <h2>Our Recipes</h2>
+      <hr style="width: 100px" />
+      <!-- The menu -->
+      <ul class="menu">
+        <li class="active">Breakfast</li>
+        <li class="active">Lunch</li>
+        <li class="active">Dinner</li>
+        <li class="active">Dessert</li>
+        <li class="active">Beverage</li>
+      </ul>
+      <!-- Here is where you can write your code -->
+      <div class="recipe">
+        <img src="https://crystalandcomp.com/wp-content/uploads/2016/07/homemade-buttermilk-pancakes--720x720.png" />
+      </div>
+      <button id="button-generate">Generate</button>
+      <div id="content">
+
+      </div>
+    </div>
+    <script>
+        var btn = document.getElementById('button-generate')
+        btn.addEventListener("click",() =>{
+            content.innerHTML=`
+            <div id="wrapper" class="w-[80%] bg-[#f1f5f8] border-4 border-black p-8">
+        <div class="text-center text-[#182e3f] text-[40px]"><strong>Our Recipes</strong></div>
+        <div class="flex justify-center py-6">
+            <div class="bg-[#c29c69] w-[20%] h-1"></div>
+        </div>
+        <div class="flex justify-center gap-2 text-[#c29c69] ">
+            <button class="border-2 border-[#c29c69] rounded-lg px-[3%] hover:!bg-[#c29c69] hover:!text-white" type="button">Breakfast</button>
+            <button class="border-2 border-[#c29c69] rounded-lg px-[3%] hover:!bg-[#c29c69] hover:!text-white" type="button">Lunch</button>
+            <button class="border-2 border-[#c29c69] rounded-lg px-[3%] hover:!bg-[#c29c69] hover:!text-white" type="button">Dinner</button>
+            <button class="border-2 border-[#c29c69] rounded-lg px-[3%] hover:!bg-[#c29c69] hover:!text-white" type="button">Dessert</button>
+            <button class="border-2 border-[#c29c69] rounded-lg px-[3%] hover:!bg-[#c29c69] hover:!text-white" type="button">Beverage</button>
+        </div>
+        <div class="my-6 w-full flex ">
+            <div class="w-[100%]  mr-8  ">
+                <img class="w-full  rounded" src="https://crystalandcomp.com/wp-content/uploads/2016/07/homemade-buttermilk-pancakes--720x720.png" alt="">
+                <div class="pt-4 text-[18px]"><strong>Beer-Braised Pork Chops</strong></div>
+                <div class="py-6">This is a quick and easy recipe that results in tender and flavorful pork chops.</div>
+                <div><strong>By Chef A.</strong></div>
+            </div>
+            <div class="w-full">
+                <div class="text-[#182e3f]"><strong>Direction</strong></div>
+                <div class="flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
+                    </svg>                  
+                    <div class="text-[#c29c69]"><strong>Step 1</strong></div>
+                </div>
+                <div class="text-[#858c92]">Combine flour, salt, and pepper in a large resealable plastic bag. Add pork chops and shake well to coat thoroughly.</div>
+                
+                
+                <div class="flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
+                    </svg>                  
+                    <div class="text-[#c29c69]"><strong>Step 2</strong></div>
+                </div>
+                <div class="text-[#858c92]">Combine flour, salt, and pepper in a large resealable plastic bag. Add pork chops and shake well to coat thoroughly.</div>
+
+                
+                <div class="flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
+                    </svg>                  
+                    <div class="text-[#c29c69]"><strong>Step 3</strong></div>
+                </div>
+                <div class="text-[#858c92]">Combine flour, salt, and pepper in a large resealable plastic bag. Add pork chops and shake well to coat thoroughly.</div>
+
+                <div class="flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
+                    </svg>                  
+                    <div class="text-[#c29c69]"><strong>Step 4</strong></div>
+                </div>
+                <div class="text-[#858c92]">Combine flour, salt, and pepper in a large resealable plastic bag. Add pork chops and shake well to coat thoroughly.</div>
+            </div>
+        </div>
+        <div>Our Other Recipes</div>
+        <div class="w-full bg-black h-[1px] my-4"></div>
+        <div class="grid grid-cols-3 gap-[5%]">
+            <div class="border-[2px] border-black text-center">Honey-Garlic Chicken Thighs</div>
+            <div class="border-[2px] border-black text-center">Best White Chicken Chili</div>
+            <div class="border-[2px] border-black text-center">Apple Cider Oatmeal Bread</div>
+            <div class="border-[2px] border-black text-center">Louisiana Sweet Potato Pancakes</div>
+            <div class="border-[2px] border-black text-center">Chef John's Spaghetti</div>
+            <div class="border-[2px] border-black text-center">Homemade Fresh Pumpkin Pie</div>
+        </div>
+    </div>
+            `
+        })
+    </script>
+  </body>
+</html>
