@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>exe6</title>
+    <style>
+        body{
+            background-color: #d3d3d3;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .wrapper{
+            width: 500px;
+            height: 500px;
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .content > span{
+            padding: 20px;
+        }
+        .small{
+            display: none;
+        }
+        .big{
+            display: block;
+            background-color: #9acd32;
+        }
+        @media only screen and (max-width: 350px) {
+            .small{
+                display: block;
+                background-color: #cd5c5c;
+            }
+            .big{
+                display: none;   
+            }
+        }
+    </style> 
+</head>
+<body>
+    <div class="wrapper">
+        <div class="content">
+            <span class="small">I'm SMALL😢</span>
+            <span class="big">I'm BIG😱</span>
+        </div>
+    </div>
+</body>
+</html>
