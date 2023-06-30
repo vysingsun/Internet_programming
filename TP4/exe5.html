@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>exe5</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="tween.umd.js"></script>
+    <style>
+        #bars{
+            display: none;
+        }
+        #output{
+            display: none;
+        }
+        
+        @media only screen and (max-width: 800px) {
+            #content{
+                display: none;
+            }
+            #icon{
+                display: none;
+            }
+            #bars{
+                display: flex;
+            }
+            #output{
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body class="w-full flex justify-center">
+    <div class="w-[90%] bg-[#f1f5f8]  border-8 border-black p-2">
+        
+        <div class="bg-white w-full  flex justify-between px-4">
+
+            <div class="text-[#102a42] text-[200%]"><strong>NAV-BAR</strong></div>
+
+            <div id="content" class="w-1/3 flex items-center justify-between">
+                <span>Home</span>
+                <span>About</span>
+                <span>Projects</span>
+                <span>Contact</span>
+            </div>
+            
+            <div id="icon" class="w-1/5 flex items-center gap-[10%] ">
+                <div class="w-1/5">
+                    <img src="./img/facebook.png" alt="">
+                </div>
+                <div class="w-1/5">
+                    <img src="./img/twitter.png" alt="">
+                </div>
+                <div class="w-1/5"> 
+                    <img src="./img/behance.png" alt="">
+                </div>
+                <div class="w-1/5">
+                    <img src="./img//linkedin.png" alt="">
+                </div>
+                <div class="w-1/5">
+                    <img src="./img/diamond.png" alt="">
+                </div>
+            </div>
+            <div id="bars" class="flex items-center">
+                <button id="bar" type="button" >
+                    <svg onclick="run()" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                    </svg>
+                </button>      
+            </div>
+
+        </div>
+        <!-- hidden -->
+        <div id="output" class="bg-white w-full h-0 px-4 overflow-hidden">
+            <div>Home</div>
+            <div>About</div>
+            <div>Projects</div>
+            <div>Contact</div>
+        </div>   
+    </div>
+    <script>
+        var barsBtn = document.getElementById('bar')
+        var output = document.getElementById('output')
+        var pos = {start: 0, end: 170}
+        function render(x){
+            // output.style.position = 'absolute';
+            output.style.height = x+'px';
+            barsBtn.style.rotate = -(x/1.88888)+"deg"
+           
+        }
+        function animate() {
+            requestAnimationFrame(animate)
+            TWEEN.update()
+        }
+        requestAnimationFrame(animate)
+        const init = (start, End) => {
+            const coords = { x: start}
+            const tween = new TWEEN.Tween(coords)
+                .to({ x:End}, 500)
+                .easing(TWEEN.Easing.Quadratic.out)
+                .onUpdate(() => {
+                    render(coords.x)
+                    let tmp = pos.start
+                    pos.start = pos.end
+                    pos.end = tmp
+                })
+                .start()
+        }
+        function run () {
+            init(pos.start, pos.end)
+        }    
+    </script>
+</body>
+</html>
