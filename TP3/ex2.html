@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div  class="border-2 border-[#000000] w-[95%] m-auto" >
+        <div class="flex justify-center items-center">To-do List with LocalStorage</div>
+            <div class="bg-[#d9d9d9] rounded-lg m-auto justify-center">
+                <div class="flex w-full ">
+                    <div class="p-2  w-full">
+                        <div>Task title</div>
+                        <div class=""> 
+                            <input class="rounded-lg" type="text" id="title">
+                        </div>
+                    </div>
+                    <div class="p-2 w-full">
+                        <div>Assingnee</div>
+                        <div class=""> 
+                            <input class="rounded-lg" type="text" id="assignee">
+                        </div>
+                    </div>
+                    <div class="p-2 w-full">
+                        <div>Dateline</div>
+                        <div > 
+                            <input class="rounded-lg" type="date" id="deadline">
+                        </div>
+                    </div>
+                    <div class="flex items-end  p-2 w-full ">
+                        <input type="button" id="add-btn" class="h-10 w-16 bg-blue-700 rounded-xl text-cyan-50" value="Add">
+                    </div>
+                </div>
+            </div>
+        <div id="list-wrapper"></div>
+    </div>
+    <script>
+        var output = document.getElementById("output")
+        var title = document.getElementById("title")
+        var assignee = document.getElementById("assignee")
+        var deadline = document.getElementById("deadline")
+        var addbtn = document.getElementById("add-btn")
+        var listEle = document.getElementById("list-wrapper")
+        var todoList = getAllStorage()
+
+        function renderList () {
+            let listContent='';
+            todoList.forEach(function callback(todo, index)  {
+                listContent += `
+
+                    <div id="output" class="output bg-white flex items-center justify-center h-14 mt-2 mb-2 rounded-xl p-4 border-black border-2">
+                        <div class="input-title w-1/4 ml-3 mr-3">
+                            <div>${todo.title}</div>
+                        </div>
+                        <div class="input-assignee w-1/4 ml-3 mr-3">
+                            <div>${todo.assignee}</div>
+                        </div>
+                        <div class="input-deadline w-1/4 ml-3 mr-3">
+                            <div>${todo.deadline}</div>
+                        </div>
+                        <div class="input-deadline w-fit ml-3 mr-3">
+                            <input type="button" id="${index}" class="h-10 w-16 bg-red-700 rounded-xl text-cyan-50" value="Delete" onclick="remove('${todo.id}')">
+                        </div>
+                    </div>
+                    `
+            });
+
+            listEle.innerHTML = listContent;
+        }
+
+        function add (idVaue, titleValue, assigneeValue, deadlineValue) {
+            var todo = {id:idVaue, title:titleValue, assignee:assigneeValue, deadline:deadlineValue}
+            todoList.push(todo)
+            sessionStorage.setItem(idVaue+"", JSON.stringify(todo))
+            title.value = "";
+            assignee.value = "";
+            deadline.value = "";
+            
+            renderList();
+        }
+
+        function remove (id) {
+            sessionStorage.removeItem(id)
+            todoList = getAllStorage()
+            renderList()
+        }
+
+        function getAllStorage() {
+            let keys = [];
+            let tmplist = []
+            for (let i=0; i<sessionStorage.length; i++){
+                keys.push(sessionStorage.key(i))
+            }
+
+            for ( i=0; i<keys.length; i++ ) {
+                let todo = JSON.parse(sessionStorage.getItem(keys[i]))
+                tmplist.push( todo );
+            }
+            tmplist.sort( (a,b) => a.id - b.id );
+            return tmplist
+        }
+
+
+
+
+        renderList();
+        addbtn.addEventListener("click", () => {
+            const d = new Date();
+            let id = d.getTime()
+            add(id, title.value, assignee.value, deadline.value)
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex3</title>
+    <style>
+        body {
+  margin: 0px;
+  margin-top: 4rem;
+  font-family: sans-serif;
+}
+
+.wrapper {
+  width: 50rem;
+  height: 45rem;
+  border: 0.5rem solid rgb(15, 15, 15);
+  box-shadow: 0.4rem 0.4rem 0.6rem rgb(159, 159, 159);
+  padding: 0 3rem 3rem 3rem;
+  margin: auto;
+  overflow: hidden;
+  overflow-y: scroll;
+
+}
+
+.title {
+  font-size: 30px;
+  font-weight: bold;
+  width: 100%;
+  height: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.input-wrapper {
+  height: 18%;
+  background-color: rgb(202, 202, 202);
+  border-radius: 1rem;
+  padding: 0px 1rem 0px 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+label {
+  margin-left: 1rem;
+}
+
+input {
+  border-radius: 1rem;
+  padding: 1rem;
+  background: white;
+  border: none;
+}
+
+#add {
+  color: white;
+  font-weight: bold;
+  border-radius: 1rem;
+  display: inline;
+  padding: 1rem;
+  background: rgb(48, 110, 203);
+  border: none;
+  width: 6rem;
+  height: 3.2rem;
+}
+
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.8rem 1rem 0.8rem 1rem;
+  align-items: center;
+  height: 1.5rem;
+  border: 1.5px solid rgb(165, 165, 165);
+  border-radius: 1rem;
+  margin-top: 1rem;
+
+}
+
+.expiredButton {
+  border-radius: 1.5rem;
+  background-color: rgb(155, 39, 39);
+  color: white;
+  font-weight: bold;
+  width: fit-content;
+  height: 2.5rem;
+  padding: 0.2rem 2rem 0.2rem 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="title">Cookie Management</div>
+        <div class="input-wrapper">
+            <div><Label>Key</Label><br>
+                <input type="text" placeholder="Key" size="23%" id="Key">
+            </div>
+            <div><label>Value</label><br>
+                <input type="text" placeholder="Value" size="23%" id="Value">
+            </div>
+            <div><label>Expired</label><br>
+                <input type="Date" size="18%" id="Date">
+            </div>
+            <div><br>
+                <button id="add">Add</button>
+            </div>
+        </div>
+        <div id="list-wrapper">
+
+        </div>
+    </div>
+    <script>
+        let listWrapperEle = document.getElementById("list-wrapper");
+        let add = document.getElementById("add");
+
+        let keY = document.getElementById("Key");
+        let valuE = document.getElementById("Value");
+        let datE = document.getElementById("Date");
+
+
+        function renderList() {
+            listWrapperEle.innerHTML += `
+            <div class="row" id="${keY.value}">
+                <div style="width: 25%;">${keY.value}</div>
+                <div style="width: 20%; margin-right:6em" >${valuE.value}
+            </div>
+            <button class="expiredButton" onclick="deleteRow(this)">
+                <div> Set expired  </div>
+                <div>
+                <img src="./img/RedTrashButton.png" alt="Delete" style="width:20px; height:30px; ">
+                </div>
+            </button>
+        </div>
+            `
+        }
+
+        add.addEventListener("click", () => {
+            renderList();
+            let pareDate = datE.value.split("-"); //need to parse Date and get each value
+
+            let cookie = keY.value + "=" + valuE.value + "; expires=" + new Date(pareDate[0], pareDate[1], pareDate[2]).toUTCString();
+            console.log(cookie);
+            document.cookie = cookie;
+        });
+
+
+        (function restoreData_Cookie() {
+            let pareCookie=document.cookie.split("; ");// ex: 'AAA=11111; BBBBB=11111; CCC=11111'
+            console.log(pareCookie)
+            for(let x of pareCookie){//so x will have Name = Value 
+                keY.value=x.split("=")[0];
+                valuE.value=x.split("=")[1];
+                renderList();
+                console.log(x);
+            } //expected a lot of error...
+        })();
+
+
+        function setCookie(name, value, options = {}) {
+
+            options = {
+                path: '/',
+                ...options
+            };
+
+            if (options.expires instanceof Date) {
+                options.expires = options.expires.toUTCString();
+            }
+
+            let updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value);
+
+            for (let optionKey in options) {
+                updatedCookie += "; " + optionKey;
+                let optionValue = options[optionKey];
+                if (optionValue !== true) {
+                    updatedCookie += "=" + optionValue;
+                }
+            }
+
+            document.cookie = updatedCookie;
+        }
+
+        function deleteCookie(name) {
+            setCookie(name, "", {
+                'max-age': -1
+            })
+        }
+
+        function deleteRow(currentNode) {
+            let parent = currentNode.parentNode;
+            deleteCookie(parent.id);            
+            parent.remove();
+        }
+    </script>
+</body>
+</html>
