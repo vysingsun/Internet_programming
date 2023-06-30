@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="w-full h-[100vh] flex justify-center items-center">
+    <video autoplay playsinline webkit-playsinline muted hidden id="videoElement"></video>
+    <div class="bg-[#808080] w-[700px] h-[550px] px-4 pt-2">
+        <canvas id="canvas" class="w-full h-[88%] border-2 border-black"></canvas>
+        <div>
+            <div class="flex justify-center">Canvas 👻 : Please show your on me</div>
+            <div class="flex justify-center">
+                <button class="bg-white rounded-sm" id="btn" type="button" onclick="pauseVdo()">Pause</button>
+            </div>
+        </div> 
+    </div> 
+    <canvas id="canvasOutput" class="ml-2 w-[700px] h-[550px]"></canvas>
+    
+    
+    <script>
+        var videoElement = document.getElementById("videoElement");
+        let btn = document.getElementById("btn");
+        let count = 0;
+
+        function pauseVdo(){
+            count = count + 1;
+            if (count%2 !=0) {
+                videoElement.pause();
+            } else {
+                videoElement.play();
+                count = 0;
+            }
+        }
+
+        var streamContraints = {
+            audio: false,
+            video: true,
+        };
+
+        var canvas = document.querySelector('#canvas');
+        var ctx = canvas.getContext('2d',{alpha: false});
+        var canvasInterval = null;
+        var fps=30;
+
+        function gotStream(stream) {
+            videoElement.srcObject = stream 
+            videoElement.play()
+        }
+
+        if(videoElement){
+            navigator.mediaDevices
+            .getUserMedia(streamContraints)
+            .then(gotStream)
+            .catch((err) =>{
+                console.log('navigator.MediaDevices.getUserMedia error: ',err.message,err.name);
+            });
+        }
+        
+        function drawImage(video) {
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        }
+
+        var canvasProject = document.getElementById('canvasOutput');
+        var ctxProject = canvasProject.getContext('2d');
+        function gridVideo(video){
+            ctxProject.drawImage(video, 0, 0, 213, 240, 0, 0, 99, 74);
+            ctxProject.drawImage(video, 213, 0, 213, 240, 100, 0, 99, 74);
+            ctxProject.drawImage(video, 426, 0, 213, 240, 200, 0, 100, 74);
+            ctxProject.drawImage(video, 0, 240, 213, 240, 0, 75, 99, 75);
+            ctxProject.drawImage(video, 213, 240, 213, 240, 100, 75, 99, 75);
+            ctxProject.drawImage(video, 426, 240, 213, 240, 200, 75, 100, 75);
+        }
+
+        canvasInterval = window.setInterval(() => {
+            drawImage(videoElement);
+        }, 1000 / fps);
+
+        canvasInt = window.setInterval(() => {
+            gridVideo(videoElement);
+         }, 1000 / fps);
+    </script>
+    </script>
+</body>
+</html>

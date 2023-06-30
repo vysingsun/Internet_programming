@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>exe3</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <script src="myTailwind.config.js"></script> -->
+</head>
+<bod class="h-[100vh] flex justify-center items-center">
+    <div class="w-[500px] h-[550px]">
+        <canvas id="canvas" class="w-full h-[85%] border-2 border-[#808080] "></canvas>
+        <div class="bg-[#808080] w-full h-[15%] flex justify-center items-center">
+            <div>
+                <div>Canvas 👻 : Insert me an image please!</div>
+                <input type="file" id="input">
+            </div>
+        </div>
+    </div>
+    <div>
+        
+    </div>
+    <script>
+        var canvas = document.getElementById("canvas")
+        var ctx = canvas.getContext('2d');
+        var uploadedImageFile = document.getElementById('input');
+        uploadedImageFile.addEventListener('change',handleImage);
+
+        function handleImage(uploadedImageFile){
+            var reader = new FileReader();
+            reader.onload = function(event){
+                var img = new Image();
+                img.onload = function(){
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img,0,0);
+                }
+                img.src = event.target.result;
+            }
+            reader.readAsDataURL(uploadedImageFile.target.files[0]);
+        }
+    </script>
+</bod>
+</html>

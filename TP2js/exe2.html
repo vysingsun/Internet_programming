@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>exe2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="tween.umd.js"></script>
+
+</head>
+<body class="bg-black w-full h-full">
+    <div class="bg-white w-[120px] h-[40px] flex items-center justify-center rounded" id="btn" onmouseover="run()">Click Me🤣</div>
+    <script>
+        var cube = document.getElementById("btn")
+        var start = [0,0]
+
+        function render(x,y){
+            cube.style.position = 'absolute';
+            cube.style.top = x+'px';
+            cube.style.left = y+'px';
+        }
+
+        function animate(){
+            requestAnimationFrame(animate)
+            TWEEN.update()
+        }
+        requestAnimationFrame(animate)
+
+        const init = (startX,startY,EndX,EndY) =>{
+            const coords = {x: startX, y:startY}
+            const tween = new TWEEN.Tween(coords)
+                .to({ x:EndX, y:EndY}, 1000)
+                .easing(TWEEN.Easing.Quadratic.out)
+                .onUpdate(() => {
+                    render(coords.x, coords.y)
+                    start[0] = coords.x
+                    start[1] = coords.y
+                })
+                .start()
+        }
+        function run () {
+            const rndx = Math.floor(Math.random() * 600) + 1
+            const rndy = Math.floor(Math.random() * 1270) + 1
+            init(start[0], start[1], rndx, rndy)
+        }
+    </script>
+</body>
+</html>
