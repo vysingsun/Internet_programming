@@ -105,7 +105,9 @@
     import AddCatePopup from './AddCatePopup.vue';
     import categoryApi from '../libs/category';
     import itemApi from '../libs/item';
-    import productApi from '../libs/product'
+    import productApi from '../libs/product';
+    import produdctTable from '../libs/productTable'
+    // import productApi from '../libs/productTable'
     import axios from 'axios';
     export default {
         components: {
@@ -129,8 +131,10 @@
             this.categories = await categoryApi.getCategory();
             this.categories = this.categories.data;
 
-            this.products = await productApi.getProductApi();
-            this.products = this.products.data;
+            // this.products = await productApi.getProductApi();
+            this.products = await produdctTable.getProductApi();
+            // this.products = this.products.data;
+            console.log(this.products);
         },
         methods:{
             change: async function categorySelect(){

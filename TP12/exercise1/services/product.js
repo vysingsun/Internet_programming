@@ -1,20 +1,20 @@
 const Products = require("../models/products")
 const mongoose = require('mongoose')
 
-const findAllProduct = async ()=>{
-  try {
-    const products = await Products.find()
-    return {
-      success: true,
-      data: products
-    };
-  } catch (err) {
-    return {
-      success: false,
-      error: err.message
-    }
-  }
-}
+// const findAllProduct = async ()=>{
+//   try {
+//     const products = await Products.find()
+//     return {
+//       success: true,
+//       data: products
+//     };
+//   } catch (err) {
+//     return {
+//       success: false,
+//       error: err.message
+//     }
+//   }
+// }
 
 const findById = async (id) => {
   try {
@@ -33,6 +33,7 @@ const findById = async (id) => {
 
 const findAll = async (category = '', item = '') => {
   let matchCond = {};
+  
   if(category) matchCond['category'] = mongoose.Types.ObjectId(category)
   if(item) matchCond['item'] = mongoose.Types.ObjectId(item)
 
@@ -42,10 +43,10 @@ const findAll = async (category = '', item = '') => {
     },
     {
       $lookup: {
-        from: "Prices",
+        from: "prices",
         localField: "_id",
-        foreignField: "Products",
-        as: "Prices"
+        foreignField: "product",
+        as: "prices"
       },
     },
     {
@@ -68,9 +69,13 @@ const findAll = async (category = '', item = '') => {
     { "$unwind": "$category" },
     { "$unwind": "$item" },
   ])
+  console.log(products);
 
-  if (!products?.length)
+  if (!products?.length){
     return []
+  }
+
+
 
   return products
 }
@@ -185,6 +190,6 @@ module.exports = {
   remove,
   findAll,
   create,
-  findAllProduct,
+  // findAllProduct,
   findProductPrice
 }

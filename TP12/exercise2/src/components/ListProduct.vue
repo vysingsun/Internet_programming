@@ -1,7 +1,7 @@
 <script>
 import categoriesApi from '../libs/category'
 import productsApi from '../libs/product'
-import productpriceApi from '../libs/productprice'
+// import productpriceApi from '../libs/productprice'
 export default {
   data() {
     return {
@@ -13,14 +13,14 @@ export default {
   },
   async mounted() {
     this.categories = await categoriesApi.getCategoryItem();
-    // this.products = await productsApi.getAllProduct("", "").data;
+    this.products = await productsApi.getAllProduct("", "");
     // this.products = this.products.data
 
     // this.products = await productsApi.getProductApi();
 
     // this.productPrices = await productpriceApi.getProductPrice();
     // this.productPrices = this.productPrices.data
-    console.log(this.products);
+    // console.log(this.products);
     
   },
   methods: {
@@ -57,13 +57,10 @@ export default {
                   <img :src="product.imageUrl" alt="imgLogo">
                 </div>
                 <div class="w-full flex justify-center py-2">{{product.title}}</div>
-                <!-- <div v-for="productPrice in productPrices" :key="productPrice._id"> -->
-                  <div v-for="price in product?.prices" :key="price._id" class="flex justify-around">
-                    <div>Shop1</div>
+                  <div v-for="price in product['prices']" :key="price._id" class="flex justify-around">
                     <div>$ {{price.price}}</div>
                     <div>{{ price.source }}</div>
                   </div>
-                <!-- </div> -->
               </div>           
           </div>
         </div>

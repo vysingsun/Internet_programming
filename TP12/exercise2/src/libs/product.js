@@ -1,15 +1,16 @@
 var productApi = {
-    async getProductApi() {
-        const res = await fetch('http://localhost:3001/product/all',{
-            method: 'GET',
-            // credentials: 'include',
-            headers: {
-                'Content-type': 'application/json',               
-            }
-        })
-        const result = await res.json();
-        return result
-    },
+    // async getProductApi() {
+    //     const res = await fetch('http://localhost:3001/product/all',{
+    //         method: 'GET',
+    //         // credentials: 'include',
+    //         headers: {
+    //             'Content-type': 'application/json',               
+    //         }
+    //     })
+    //     const result = await res.json();
+
+    //     return result
+    // },
     async getAllProduct(categoryId, itemId) {
         if(categoryId == ""){
             const res = await fetch('http://localhost:3001/product/all',{
@@ -19,7 +20,8 @@ var productApi = {
                     
                 }
             })
-            const result = res.json();
+            const result = await res.json();
+            // console.log(result);
             return result
         }else{
             const res = await fetch(`http://localhost:3001/product/all/${categoryId}/${itemId}`,{
@@ -28,7 +30,7 @@ var productApi = {
                     'content-type': 'application/json'
                 }
             })
-            const result = res.json();
+            const result = await res.json();
             return result
         }
     },

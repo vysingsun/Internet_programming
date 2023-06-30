@@ -10,10 +10,10 @@ router.get('/price', async (req, res) => {
   const result = await productService.findProductPrice();
   res.json(result);
 })
-router.get('/all', async (req, res) => {
-  const result = await productService.findAllProduct();
-  res.json(result);
-})
+// router.get('/all', async (req, res) => {
+//   const result = await productService.findAllProduct();
+//   res.json(result);
+// })
 
 router.get('/all/:category?/:item?', async (req, res) => {
   const { category, item } = req.params;
