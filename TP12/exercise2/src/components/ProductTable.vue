@@ -46,7 +46,9 @@
                         </td>
                         <td class="px-6 py-4">
                             <div>Edit</div>
-                            <button @click="DeleteProduct(product._id)">Delete</button>
+                            <form >
+                                <button @click="DeleteProduct(product._id)">Delete</button>
+                            </form>
                         </td>
                     </tr>
                 </tbody>
@@ -105,9 +107,7 @@
     import AddCatePopup from './AddCatePopup.vue';
     import categoryApi from '../libs/category';
     import itemApi from '../libs/item';
-    import productApi from '../libs/product';
     import produdctTable from '../libs/productTable'
-    // import productApi from '../libs/productTable'
     import axios from 'axios';
     export default {
         components: {
@@ -127,15 +127,7 @@
                 item: ''
             }
         },
-        async mounted(){
-            this.categories = await categoryApi.getCategory();
-            this.categories = this.categories.data;
-
-            // this.products = await productApi.getProductApi();
-            this.products = await produdctTable.getProductApi();
-            // this.products = this.products.data;
-            console.log(this.products);
-        },
+        
         methods:{
             change: async function categorySelect(){
                 console.log(this.category1);
@@ -159,15 +151,23 @@
                     item: this.item
                 });
             },
+            
             DeleteProduct(id){
                 if(confirm('Are you sure ?')){
                     axios.post(`http://localhost:3001/product/delete/${id}`)
-                    .then(res => {
+                    .then(( res )=> {
                         console.log("deleted?");
+                        
                     }); 
                 }
             }
+        },
+        async mounted(){
+            this.categories = await categoryApi.getCategory();
+            this.categories = this.categories.data;
+
+            this.products = await produdctTable.getProductApi();
+            console.log(this.products);
         }
     }
-    
 </script>

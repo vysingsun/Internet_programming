@@ -69,25 +69,20 @@ const findAll = async (category = '', item = '') => {
     { "$unwind": "$category" },
     { "$unwind": "$item" },
   ])
-  console.log(products);
-
   if (!products?.length){
     return []
   }
-
-
-
   return products
 }
-
-const create = async (newProduct,file) => {
+// ,file
+const create = async (newProduct) => {
   try {
-    const { title , price, category , item , user} = newProduct
-    if(file){
-      var imageUrl = file;
-    }else{
-      var imageUrl = ''
-    }
+    const { title , price, category , item , user, imageUrl} = newProduct
+    // if(file){
+    //   var imageUrl = file;
+    // }else{
+    //   var imageUrl = ''
+    // }
     const newData = {
       title: title,
       price: price,

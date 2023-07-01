@@ -86,7 +86,7 @@
     import categoryApi from '../libs/product';
     import priceApi from '../libs/Price'
     import axios from 'axios';
-    import productApi from '../libs/product';
+    import productApi from '../libs/productTable';
     export default {
         components: {
             AddCatePopup
@@ -103,7 +103,7 @@
         },
         async mounted(){
             this.products = await productApi.getProductApi();
-            this.products = this.products.data;
+            // this.products = this.products.data;
 
             this.prices = await priceApi.getPriceApi();
             this.prices = this.prices.data;
