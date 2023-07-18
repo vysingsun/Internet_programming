@@ -77,19 +77,18 @@ const findAll = async (category = '', item = '') => {
 // ,file
 const create = async (newProduct,file) => {
   try {
-    const { title , price, category , item , user} = newProduct
+    const { title , category , item } = newProduct
+    var images="";
     if(file){
-      var imageUrl = file;
+       images = file;
     }else{
-      var imageUrl = ''
+       images = ''
     }
     const newData = {
       title: title,
-      price: price,
       category: category,
       item:item,
-      user: user,
-      imageUrl: imageUrl
+      image: images
     }
     const product = await Products.create(newData)
     return {
@@ -112,7 +111,7 @@ const update = async (id, newProduct) => {
     product.category = newProduct.category
     product.item = newProduct.item
     product.user = newProduct.user
-    product.imageUrl = newProduct.imageUrl
+    product.image = newProduct.image
     await product.save()
     return {
       success: true,

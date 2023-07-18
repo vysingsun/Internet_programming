@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 var productSchema = new mongoose.Schema({
   title: String,
-  price: Number,
+  // price: Number,
   category: {
     type: Schema.Types.ObjectId,
     ref: 'Categories'
@@ -13,11 +13,11 @@ var productSchema = new mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: 'Items'
   },
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: 'Users'
-  },
-  imageUrl: String,
+  // user: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'Users'
+  // },
+  image: String,
   desc: String,
 }, {
   timestamps: true,

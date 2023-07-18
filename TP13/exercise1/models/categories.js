@@ -7,7 +7,7 @@ var categoriesSchema = new mongoose.Schema({
     required: true
   },
   desc: String,
-  imageUrl: String,
+  // imageUrl: String,
 }, {
   timestamps: true
 });

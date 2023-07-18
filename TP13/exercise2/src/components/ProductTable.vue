@@ -35,7 +35,7 @@
                         </th>
                         <td class="px-6 py-4">
                             <div class="w-16">
-                                <img class="p-0 w-full" :src="product.imageUrl" alt="">
+                                <img class="p-0 w-full" :src="serverUrl+product.image" alt="">
                             </div>
                         </td>
                         <td class="px-6 py-4">
@@ -56,7 +56,8 @@
         </div>
     </div>
     <AddProductPopup v-if="showPopup">
-        <form>
+        <!-- @submit.prevent="submitForm" -->
+        <form enctype="multipart/form-data">
             <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
                 <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
                 <div class="fixed inset-0 z-10 overflow-y-auto">
@@ -67,7 +68,7 @@
                                     <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">Add new Item</h3>
                                     <div class="mt-2">
                                         <label for="countries" class="block pl-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">Product title</label>
-                                        <input type="text" name="title" v-model="title"  aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="title">
+                                        <input type="text"  v-model="title"  aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="title">
                                     </div>
                                     
                                     <!-- <div class="mt-2">
@@ -77,24 +78,25 @@
                                     <div class="mt-2">
                                         <label for="countries" class="block pl-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Image</label>
                                         <!-- <input type="text" name="imageUrl" v-model="imageUrl"  aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="imageUrl"> -->
-                                        <input class="p-2 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file">
+                                        <input class="p-2 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" type="file" ref="file" @change="handleFileChange">
                                     </div>
                                     <div class="mt-2">
                                         <label for="countries" class="block pl-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">Select a Category</label>
-                                        <select  @change="change" v-model="category1" name="category1" class="category bg-gray-50 border border-gray-300 text-gray-900  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Category">
+                                        <select  @change="change" id="category" v-model="category1" name="category1" class="category bg-gray-50 border border-gray-300 text-gray-900  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Category">
                                             <option v-for="category in categories" :key="category._id" :value="category._id">{{category.name}}</option>
                                         </select>
                                     </div>
                                     <div class="mt-2">
                                         <label for="countries" class="block pl-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">Select a Sub-Category</label>
-                                        <select  v-model="item" name="item" class=" bg-gray-50 border border-gray-300 text-gray-900  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="item">
+                                        <select id="item" v-model="item" name="item" class=" bg-gray-50 border border-gray-300 text-gray-900  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="item">
                                             <option v-for="item in items" :key="item._id" :value="item._id">{{item.name}}</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                                <button v-on:click="addProduct()"  class="inline-flex w-full justify-center rounded-md bg-gray-900 px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto">Add</button>
+                                <!-- v-on:click="submitForm()"  -->
+                                <button v-on:click="submitForm()" class="inline-flex w-full justify-center rounded-md bg-gray-900 px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto">Add</button>
                                 <button @click="showPopup = false" type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Cancel</button>
                             </div>
                         </div>
@@ -123,37 +125,44 @@
                 showPopup: false,
                 category1: '',
                 title: '',
-                price: '',
-                imageUrl: '',
+                image: '',
                 category: '',
-                item: ''
+                item: '',
+                file : '',
+                serverUrl: 'http://localhost:3001/static/',
+                imageUrl: null
             }
         },
         
         methods:{
+            async submitForm(){
+                const formData = new FormData()
+                formData.append("title", this.title);
+                formData.append("image", this.file);
+                formData.append("category", this.category1)
+                formData.append("item", this.item)
+                console.log(this.title);
+                console.log(this.file);
+                try {
+                    const res = await axios.post("http://localhost:3001/product/create",formData,{
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                    console.log(res.data);
+                } catch (error) {
+                    console.log(error);
+                }
+            },
+            handleFileChange(){
+                this.file = this.$refs.file.files[0];
+            },
             change: async function categorySelect(){
                 console.log(this.category1);
                 const test = await itemApi.getItemApi(this.category1)
                 console.log(test);
                 this.items = test["data"]
             },
-            addProduct(){
-                console.log("Called");
-                console.log(this.title);
-                console.log(this.price);
-                console.log(this.imageUrl);
-                console.log(this.category1);
-                console.log(this.item);
-                
-                axios.post("http://localhost:3001/product/create",{
-                    title: this.title,
-                    price: this.price,
-                    imageUrl: this.imageUrl,
-                    category: this.category1,
-                    item: this.item
-                });
-            },
-            
             DeleteProduct(id){
                 if(confirm('Are you sure ?')){
                     axios.post(`http://localhost:3001/product/delete/${id}`)

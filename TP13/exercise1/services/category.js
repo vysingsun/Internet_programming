@@ -47,7 +47,7 @@ const findCategorizedItems = async () => {
         _id: 1,
         name: 1,
         desc: 1,
-        imageUrl: 1,
+        // imageUrl: 1,
         items: {
           _id: 1,
           name: 1,
@@ -62,7 +62,7 @@ const findCategorizedItems = async () => {
 // , file
 const create = async (newCategory) => {
   try{
-    const { name , desc , imageUrl} = newCategory;
+    const { name , desc } = newCategory;
     // if(file){
     //   var imageUrl = file;
     // }else{
@@ -71,7 +71,7 @@ const create = async (newCategory) => {
     const newData = {
       name: name,
       desc: desc,
-      imageUrl: imageUrl
+      // imageUrl: imageUrl
     }
     const category = await Categories.create(newData);
     return {
@@ -91,7 +91,7 @@ const update = async (cat_id, newCategory) => {
     const category = await Categories.findById(cat_id)
     category.name = newCategory.name
     category.desc = newCategory.desc
-    category.imageUrl = newCategory.imageUrl
+    // category.imageUrl = newCategory.imageUrl
     await category.save()
     return {
       success : true,

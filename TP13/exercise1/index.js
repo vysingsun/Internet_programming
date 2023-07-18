@@ -4,6 +4,7 @@ const cors = require('cors')
 const app = express();
 
 app.use(cors('*'))
+app.use('/static/upload',express.static('upload'))
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));

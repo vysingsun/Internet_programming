@@ -28,10 +28,11 @@ router.get('/:id',  async function (req, res, next) {
 })
 // auth.ensureSignedIn,
 // , upload.single('imageUrl')
-router.post('/create', upload.single('imageUrl') , async (req, res, next) => {
+router.post('/create', upload.single('image') , async (req, res, next) => {
   const newProduct = req.body
-  const file = req.file.path
-  //                                                  ,file
+  const file = req.file.path;
+  console.log(file);
+  //    path                                              ,file
   const result = await productService.create(newProduct,file)
   res.json(result);
 })

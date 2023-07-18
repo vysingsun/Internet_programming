@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 module.exports = async () => {
   try {
-    await mongoose.connect('mongodb://localhost:27017/ip_tp11', {
+    await mongoose.connect('mongodb://localhost:27017/ip_tp13', {
       autoIndex: true,
       serverSelectionTimeoutMS: 30000 // default 30 seconds
     });
